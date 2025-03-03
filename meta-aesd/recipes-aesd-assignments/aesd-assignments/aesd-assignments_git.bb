@@ -21,13 +21,14 @@ S = "${WORKDIR}/git/server"
 # TODO: customize these as necessary for any libraries you need for your application
 # (and remove comment)
 FILES:${PN} += "${bindir}/aesdsocket"
+FILES:${PN} += "${bindir}/aesdsocket-start-stop.sh"
 
-TARGET_LDFLAGS += "-lpthread -lrt"
+TARGET_LDFLAGS += "-pthread -lrt"
 
 inherit update-rc.d
 
 INITSCRIPT_PACKAGES = "${PN}"
-INITSCRIPT_NAME:${PN} = "aesdsocket-start-stop"
+INITSCRIPT_NAME:${PN} = "aesdsocket-start-stop.sh"
 
 do_configure () {
 	:
@@ -53,10 +54,3 @@ do_install () {
         install -m 0755 ${S}/aesdsocket-start-stop.sh ${D}${sysconfdir}/init.d/
 }
 
-
-# Add post-installation step
-pkg_postinst_ontarget:${PN}() {
-	# If you need to handle starting the service after installation, do so here
-	echo "Started the aesdsocket"
-	
-}
